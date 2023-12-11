@@ -8,21 +8,21 @@ public class A1AgentCommunicationPKE {
 
         final Environment env = new Environment();
 
-        env.add(new Agent("alice") {
+        env.add(new Agent("ana") {
             @Override
             public void task() throws Exception {
 
             }
         });
 
-        env.add(new Agent("bob") {
+        env.add(new Agent("bor") {
             @Override
             public void task() throws Exception {
 
             }
         });
 
-        env.connect("alice", "bob");
+        env.connect("ana", "bor");
         env.start();
     }
 }

@@ -16,7 +16,7 @@ public class ECDiffieHellmanExample {
 
         final Environment env = new Environment();
 
-        env.add(new Agent("alice") {
+        env.add(new Agent("ana") {
             @Override
             public void task() throws Exception {
                 final KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
@@ -25,12 +25,12 @@ public class ECDiffieHellmanExample {
                 // Generate key pair
                 final KeyPair keyPair = kpg.generateKeyPair();
 
-                // send "PK" to bob ("PK": A = g^a, "SK": a)
-                send("bob", keyPair.getPublic().getEncoded());
+                // send "PK" to bor ("PK": A = g^a, "SK": a)
+                send("bor", keyPair.getPublic().getEncoded());
                 print("My contribution to ECDH: %s", hex(keyPair.getPublic().getEncoded()));
 
-                // get PK from bob
-                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("bob"));
+                // get PK from bor
+                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("bor"));
                 final ECPublicKey bobPK = (ECPublicKey) KeyFactory.getInstance("EC").generatePublic(keySpec);
 
                 // Run the agreement protocol
@@ -44,11 +44,11 @@ public class ECDiffieHellmanExample {
             }
         });
 
-        env.add(new Agent("bob") {
+        env.add(new Agent("bor") {
             @Override
             public void task() throws Exception {
-                // get PK from alice
-                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("alice"));
+                // get PK from ana
+                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("ana"));
                 final ECPublicKey alicePK = (ECPublicKey) KeyFactory.getInstance("EC").generatePublic(keySpec);
 
                 final ECParameterSpec dhParamSpec = alicePK.getParams();
@@ -57,7 +57,7 @@ public class ECDiffieHellmanExample {
                 final KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
                 kpg.initialize(dhParamSpec);
                 final KeyPair keyPair = kpg.generateKeyPair();
-                send("alice", keyPair.getPublic().getEncoded());
+                send("ana", keyPair.getPublic().getEncoded());
                 print("My contribution to ECDH: %s", hex(keyPair.getPublic().getEncoded()));
 
                 final KeyAgreement dh = KeyAgreement.getInstance("ECDH");
@@ -69,7 +69,7 @@ public class ECDiffieHellmanExample {
             }
         });
 
-        env.connect("alice", "bob");
+        env.connect("ana", "bor");
         env.start();
     }
 }

@@ -16,7 +16,7 @@ public class DiffieHellmanExample {
 
         final Environment env = new Environment();
 
-        env.add(new Agent("alice") {
+        env.add(new Agent("ana") {
             @Override
             public void task() throws Exception {
                 final KeyPairGenerator kpg = KeyPairGenerator.getInstance("DH");
@@ -25,13 +25,13 @@ public class DiffieHellmanExample {
                 // Generate key pair
                 final KeyPair keyPair = kpg.generateKeyPair();
 
-                // send "PK" to bob ("PK": A = g^a, "SK": a)
-                send("bob", keyPair.getPublic().getEncoded());
+                // send "PK" to bor ("PK": A = g^a, "SK": a)
+                send("bor", keyPair.getPublic().getEncoded());
                 print("My contribution: A = g^a = %s",
                         hex(keyPair.getPublic().getEncoded()));
 
-                // get PK from bob
-                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("bob"));
+                // get PK from bor
+                final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(receive("bor"));
                 final DHPublicKey bobPK = (DHPublicKey) KeyFactory.getInstance("DH")
                         .generatePublic(keySpec);
 
@@ -46,12 +46,12 @@ public class DiffieHellmanExample {
             }
         });
 
-        env.add(new Agent("bob") {
+        env.add(new Agent("bor") {
             @Override
             public void task() throws Exception {
-                // get PK from alice
+                // get PK from ana
                 final X509EncodedKeySpec keySpec = new X509EncodedKeySpec(
-                        receive("alice"));
+                        receive("ana"));
                 final DHPublicKey alicePK = (DHPublicKey) KeyFactory.getInstance("DH")
                         .generatePublic(keySpec);
 
@@ -61,7 +61,7 @@ public class DiffieHellmanExample {
                 final KeyPairGenerator kpg = KeyPairGenerator.getInstance("DH");
                 kpg.initialize(dhParamSpec);
                 final KeyPair keyPair = kpg.generateKeyPair();
-                send("alice", keyPair.getPublic().getEncoded());
+                send("ana", keyPair.getPublic().getEncoded());
                 print("My contribution: B = g^b = %s",
                         hex(keyPair.getPublic().getEncoded()));
 
@@ -74,7 +74,7 @@ public class DiffieHellmanExample {
             }
         });
 
-        env.connect("alice", "bob");
+        env.connect("ana", "bor");
         env.start();
     }
 }
