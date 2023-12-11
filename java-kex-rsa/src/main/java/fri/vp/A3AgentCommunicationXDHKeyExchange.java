@@ -3,7 +3,7 @@ package fri.vp;
 import fri.isp.Agent;
 import fri.isp.Environment;
 
-public class A3AgentCommunicationECDHKeyExchange {
+public class A3AgentCommunicationXDHKeyExchange {
     public static void main(String[] args) {
 
         final Environment env = new Environment();

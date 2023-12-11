@@ -1,16 +1,35 @@
 * Dogovor o ključu in asimetrična šifra z RSA
 ** Cilji laboratorijske vaje
+- Spoznati uporabo šifre RSA v Javi;
+- Spoznati uporabo šifre RSA v Pythonu;
+- Spoznati uporabo gradnikov in izvesti anonimni (neoverjen) protokol za dogovor o ključu s pomočjo RSA v Javi;
+- Spoznati uporabo gradnikov in izvesti anonimni (neoverjen) protokol Diffie-Hellman v Javi.
 
 ** Naloga 1
-Šifriranje sporočila z RSA
-Veljavni načini
-- =RSA/ECB/PKCS1Padding=
-- =RSA/ECB/OAEPWithSHA-1AndMGF1Padding=
-- =RSA/ECB/OAEPWithSHA-256AndMGF1Padding=
-- Kaj se zgodi pri =NoPadding=
-- https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html
-- https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms
+Implementirajte nalogo =A1AgentCommunicationPKE.java=, kjer se Ana pošlje Boru šifrirano sporočilo z uporabo asimetrične šifre RSA.
+
+Zahteve:
+- Anin par ključev definirajte globalno v metodi =main=.
+- Uporabite podalaganje =OAEP= s =SHA-256= ter =MGF1=.
+- V pomoč poglejte v dokumentacijo
+  - [[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html][Cipher]]
+  - [[https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms][Imena algoritmov]]
 ** Naloga 2
-Izmenjava ključa z asimetrično šifro.
+Implementirajte nalogo =A2AgentCommunicationPKEKeyExchange.java=, kjer se Ana in Bor najprej dogovorita o ključu z uporabo asimetrične šifre =RSA/ECB/OAEPWithSHA-256AndMGF1Padding=, zatem pa Ana Boru pošlje sporočilo, ki je šifrirano z =AES-GCM=.
 ** Naloga 3
-Izmenjava ključ s protokolom Diffie--Helman z eliptično krivuljo.
+Implementirajte nalogo =A3AgentCommunicationXDHKeyExchange.java=, kjer se Ana in Bor najprej dogovorita o ključu z uporabo protokola Diffie--Hellman.
+
+Protokol je implementiran z eliptično krivuljo =x448=. To dosežete tako, da določena imena algoritmov ter razredov iz primera =ECDiffieHellmanExample= ustrezno spremenite:
+- Zamenjajte imena algoritmov =EC= in =ECDH= z =XDH=
+- Zamenjajte imena razredov
+  - =XECPublicKey= namesto =ECPublicKey=
+  - =NamedParameterSpec= namesto =ECParametersSpec=
+- Ko uporabite algoritem =XDH= lahko Java sama izbira med krivuljama =X25519= in =X448=. Izbiro slednje vsilite pri instanciiranju =KeyPairGenerator= kot sledi:
+  #+begin_src java
+final KeyPairGenerator kpg = KeyPairGenerator.getInstance("XDH");
+kpg.initialize(new NamedParameterSpec("X448"));
+  #+end_src
+
+Ko je deljena skrivnost določena, jo zgostite s =SHA-256= nato pa iz dobljenih bajtov naredite AES ključ. Zatem naj Ana Boru pošlje sporočilo šifrirano z =AES-GCM=.
+** Naloga 4
+Navodila za 4. nalogo najtede v zvezku IPythonNotebook. Pri tej nalogi dobro preberite dokumentacijo [[https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/][cryptography o knjižnici RSA]].
