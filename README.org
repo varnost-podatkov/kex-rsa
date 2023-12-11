@@ -1,0 +1,16 @@
+* Dogovor o ključu in asimetrična šifra z RSA
+** Cilji laboratorijske vaje
+
+** Naloga 1
+Šifriranje sporočila z RSA
+Veljavni načini
+- =RSA/ECB/PKCS1Padding=
+- =RSA/ECB/OAEPWithSHA-1AndMGF1Padding=
+- =RSA/ECB/OAEPWithSHA-256AndMGF1Padding=
+- Kaj se zgodi pri =NoPadding=
+- https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html
+- https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms
+** Naloga 2
+Izmenjava ključa z asimetrično šifro.
+** Naloga 3
+Izmenjava ključ s protokolom Diffie--Helman z eliptično krivuljo.
