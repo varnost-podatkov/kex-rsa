@@ -9,8 +9,8 @@
 Implementirajte nalogo =A1AgentCommunicationPKE.java=, kjer se Ana pošlje Boru šifrirano sporočilo z uporabo asimetrične šifre RSA.
 
 Zahteve:
-- Anin par ključev definirajte globalno v metodi =main=.
-- Uporabite podalaganje =OAEP= s =SHA-256= ter =MGF1=.
+- Borov par ključev definirajte globalno v metodi =main=.
+- Uporabite podlaganje =OAEP= s =SHA-256= ter =MGF1=.
 - V pomoč poglejte v dokumentacijo
   - [[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/Cipher.html][Cipher]]
   - [[https://docs.oracle.com/en/java/javase/21/docs/specs/security/standard-names.html#cipher-algorithms][Imena algoritmov]]
